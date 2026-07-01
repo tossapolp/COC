@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ผลการค้นหา</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        🌾 Cane Operation Center
+    </h2>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">
+                ผลการค้นหา : {{ keyword }}
+            </h4>
+
+            {% if summary %}
+
+            <div class="row">
+
+                <div class="col-md-6 mb-2">
+                    <strong>โควตา :</strong>
+                    {{ summary.quota }}
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <strong>เจ้าของโควตา :</strong>
+                    {{ summary.owner }}
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <strong>เขต :</strong>
+                    {{ summary.zone }}
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <strong>เขตย่อย :</strong>
+                    {{ summary.subzone }}
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <strong>จำนวนแปลง :</strong>
+                    {{ summary.plots }}
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <strong>พื้นที่รวม :</strong>
+                    {{ summary.area }} ไร่
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <strong>รถตัด :</strong>
+                    {{ summary.machine }}
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-warning">
+                ไม่พบข้อมูล
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                รายละเอียดแปลง
+            </h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-striped table-bordered align-middle">
+
+                    <thead class="table-success">
+
+                    <tr>
+
+                        <th>เลขแปลง</th>
+                        <th>ประเภทอ้อย</th>
+                        <th>พื้นที่ (ไร่)</th>
+                        <th>รถตัด</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in rows %}
+
+                    <tr>
+
+                        <td>{{ row["เลขแปลง"] }}</td>
+
+                        <td>{{ row["ประเภทอ้อย"] }}</td>
+
+                        <td>{{ row["พื้นที่ (ไร่)"] }}</td>
+
+                        <td>{{ row["ยืนยันรหัสรถตัด"] }}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="mt-4">
+
+        <a href="/" class="btn btn-success">
+            🔍 ค้นหาใหม่
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
