@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from excel_reader import search_data
+from excel_reader import search_data, get_dashboard
 
 app = FastAPI(
     title="Cane Operation Center",
@@ -21,11 +21,14 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
 
+    dashboard = get_dashboard()
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
         context={
-            "title": "Cane Operation Center"
+            "title": "Cane Operation Center",
+            "dashboard": dashboard
         }
     )
 
@@ -36,7 +39,7 @@ async def home(request: Request):
 @app.post("/search", response_class=HTMLResponse)
 async def search(request: Request, keyword: str = Form(...)):
 
-    result = search_data(keyword)
+    result, search_type = search_data(keyword)
 
     summary = {}
 
@@ -53,15 +56,40 @@ async def search(request: Request, keyword: str = Form(...)):
         except Exception:
             area = 0
 
-        summary = {
-            "quota": result.iloc[0]["โควตา"],
-            "owner": result.iloc[0]["ชื่อเจ้าของโควตา"],
-            "zone": result.iloc[0]["เขต"],
-            "subzone": result.iloc[0]["เขตย่อย"],
-            "machine": result.iloc[0]["ยืนยันรหัสรถตัด"],
-            "plots": len(result),
-            "area": round(area, 2)
-        }
+        # ============================
+        # สรุปข้อมูลตามประเภทการค้นหา
+        # ============================
+
+        if search_type == "machine":
+
+            summary = {
+                "machine": result.iloc[0]["ยืนยันรหัสรถตัด"],
+                "plots": len(result),
+                "area": round(area, 2),
+                "quota_count": result["โควตา"].nunique()
+            }
+
+        elif search_type == "plot":
+
+            summary = {
+                "plot": result.iloc[0]["เลขแปลง"],
+                "quota": result.iloc[0]["โควตา"],
+                "owner": result.iloc[0]["ชื่อเจ้าของโควตา"],
+                "machine": result.iloc[0]["ยืนยันรหัสรถตัด"],
+                "area": round(area, 2)
+            }
+
+        else:
+
+            summary = {
+                "quota": result.iloc[0]["โควตา"],
+                "owner": result.iloc[0]["ชื่อเจ้าของโควตา"],
+                "zone": result.iloc[0]["เขต"],
+                "subzone": result.iloc[0]["เขตย่อย"],
+                "machine": result.iloc[0]["ยืนยันรหัสรถตัด"],
+                "plots": len(result),
+                "area": round(area, 2)
+            }
 
     rows = []
 
@@ -74,6 +102,7 @@ async def search(request: Request, keyword: str = Form(...)):
         context={
             "keyword": keyword,
             "summary": summary,
-            "rows": rows
+            "rows": rows,
+            "search_type": search_type
         }
     )

@@ -3,59 +3,179 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ title }}</title>
+<title>{{ title }}</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/static/css/style.css">
 
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<div class="container mt-4">
 
-    <div class="card shadow-lg">
+<div class="header">
 
-        <div class="card-body">
+<h2>🌾 Cane Operation Center</h2>
 
-            <h2>
-                🌾 Cane Operation Center
-            </h2>
+<p>ระบบบริหารจัดการรถตัดอ้อย</p>
 
-            <p class="text-muted">
-                Version 0.1
-            </p>
+</div>
 
-            <hr>
+<div class="row g-3 mb-4">
 
-            <h5>ค้นหาข้อมูลโควตาชาวไร่</h5>
+<div class="col-md-3">
 
-            <form method="POST" action="/search">
+<div class="kpi-card">
 
-                <input
-    name="keyword"
-    class="form-control form-control-lg"
-    placeholder="ค้นหาโควตา / ชื่อชาวไร่ / รหัสรถตัด / เลขแปลง">
+<div class="kpi-number">{{ dashboard.machine_count }}</div>
 
-                <br>
+<div class="kpi-title">รถตัด</div>
 
-                <button
-                    class="btn btn-success btn-lg">
+</div>
 
-                    ค้นหา
+</div>
 
-                </button>
+<div class="col-md-3">
 
-            </form>
+<div class="kpi-card">
 
-        </div>
+<div class="kpi-number">{{ "{:,.2f}".format(dashboard.total_area) }}</div>
 
-    </div>
+<div class="kpi-title">พื้นที่ (ไร่)</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="kpi-card">
+
+<div class="kpi-number">{{ "{:,}".format(dashboard.plot_count) }}</div>
+
+<div class="kpi-title">แปลง</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="kpi-card">
+
+<div class="kpi-number">{{ "{:,}".format(dashboard.quota_count) }}</div>
+
+<div class="kpi-title">โควตา</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="search-card">
+
+<h4 class="mb-3">
+
+🔍 ค้นหาข้อมูล
+
+</h4>
+
+<form method="POST" action="/search">
+
+<input
+
+name="keyword"
+
+class="form-control form-control-lg"
+
+placeholder="ค้นหาโควตา / ชื่อเจ้าของ / รถตัด / เลขแปลง">
+
+<br>
+
+<button class="btn btn-success btn-lg w-100">
+
+ค้นหา
+
+</button>
+
+</form>
+
+</div>
+
+<div class="row mt-4">
+
+<div class="col-md-3">
+
+<div class="menu-card">
+
+🚜
+
+<h5 class="mt-2">
+
+แจ้งพื้นที่รถตัด
+
+</h5>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="menu-card">
+
+📊
+
+<h5 class="mt-2">
+
+Dashboard
+
+</h5>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="menu-card">
+
+📄
+
+<h5 class="mt-2">
+
+รายงาน
+
+</h5>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="menu-card">
+
+⚙
+
+<h5 class="mt-2">
+
+ตั้งค่า
+
+</h5>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
